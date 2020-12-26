@@ -1,32 +1,48 @@
-from PyQt5.QtWidgets import QWidget, QPushButton
+from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.QtWidgets import QVBoxLayout
 
 from TodoListWidget import TodoListWidget
+from TodoEditWidget import TodoEditWidget
+
+
+class ErrorBox(QMessageBox):
+    def __init__(self, msg):
+        super(ErrorBox, self).__init__()
+        
+        self.setWindowTitle('경고')
+        self.setText(msg)
+        self.show()
+        self.exec_()
 
 
 class MainView(QWidget):
     def __init__(self):
         super(MainView, self).__init__()
 
-        main_layout = QVBoxLayout()
-        #main_layout.addStretch(1)
+        self.setLayout(QVBoxLayout())
+
+        self.todoedit = TodoEditWidget(lambda: self.func())
+        self.layout().addWidget(self.todoedit)
 
         self.todolist = TodoListWidget()
-        main_layout.addWidget(self.todolist)
-
-        button = QPushButton('버튼')
-        button.clicked.connect(self.func)
-
-        main_layout.addWidget(button)
-
-        self.setLayout(main_layout)
+        self.layout().addWidget(self.todolist)
 
         self.setFixedSize(500, 750)
         self.setWindowTitle('할 일 목록')
         self.show()
 
     def func(self):
-        self.todolist.add_todo('안녕하세요')
+        try:
+            todo = self.todoedit.get_todo()
+
+        except ValueError as e:
+            ErrorBox(str(e))
+
+        else:
+            self.todolist.add_todo(todo)
+
+        finally:
+            self.todoedit.clear_todo_edit()
 
 
 if __name__ == '__main__':

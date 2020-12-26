@@ -1,22 +1,9 @@
-from PyQt5.QtWidgets import QGroupBox, QLabel
+from PyQt5.QtWidgets import QGroupBox
 from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtGui import QFont
+
+from ResizedQLabel import ResizedQLabel
 
 from datetime import datetime
-
-
-class ResizedQLabel(QLabel):
-    def __init__(self, text, font_size, font_family='NanumGothic'):
-        super(ResizedQLabel, self).__init__()
-
-        self.font_family = font_family
-        self.font_size = font_size
-
-        self.setText(text)
-        self.setFont(QFont(self.font_family, self.font_size))
-
-    def set_font(self, font_family, font_size=20):
-        self.setFont(QFont(font_family, font_size))
 
 
 class TodoListWidgetItem(QGroupBox):
@@ -24,9 +11,9 @@ class TodoListWidgetItem(QGroupBox):
         super(TodoListWidgetItem, self).__init__()
 
         self.setLayout(QHBoxLayout())
-        self.__todo_label = ResizedQLabel(text, 16)
+        self.__todo_label = ResizedQLabel(text)
         self.layout().addWidget(self.__todo_label)
-        self.layout().addWidget(QLabel('기간'))
+        self.layout().addWidget(ResizedQLabel('기간'))
 
         self.setStyleSheet('''
             QGroupBox {

@@ -20,9 +20,8 @@ class TodoListWidget(QScrollArea):
 
         self.setStyleSheet('background-color:"white"')
 
-    def add_todo(self, text, start_datetime=None, end_datetime=None):
-        item = TodoListWidgetItem(text)
-        self.todo_lst.layout().addWidget(item)
+    def add_todo(self, text, end_time):
+        self.todo_lst.layout().addWidget(TodoListWidgetItem(text, end_time))
 
     def rmv_todo(self, idx):
         pass

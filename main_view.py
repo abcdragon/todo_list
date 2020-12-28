@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QMessageBox
 from PyQt5.QtWidgets import QVBoxLayout
 
 from TodoListWidget import TodoListWidget
-from TodoEditWidget import TodoEditWidget
+from TodoEditWidget import TodoEditWidget, GetTermDialog
 
 
 class ErrorBox(QMessageBox):
@@ -21,7 +21,7 @@ class MainView(QWidget):
 
         self.setLayout(QVBoxLayout())
 
-        self.todoedit = TodoEditWidget(lambda: self.func())
+        self.todoedit = TodoEditWidget(self.func)
         self.layout().addWidget(self.todoedit)
 
         self.todolist = TodoListWidget()
@@ -35,13 +35,19 @@ class MainView(QWidget):
         try:
             todo = self.todoedit.get_todo()
 
+            dialog = GetTermDialog()
+            dialog.exec_()
+
+            end_time = dialog.get_end_time()
+            if not end_time:
+                self.todoedit.clear_todo_edit()
+                return
+
         except ValueError as e:
             ErrorBox(str(e))
 
         else:
-            self.todolist.add_todo(todo)
-
-        finally:
+            self.todolist.add_todo(todo, end_time)
             self.todoedit.clear_todo_edit()
 
 

@@ -3,7 +3,7 @@ from PyQt5.QtGui import QFont
 
 
 class ResizedQLabel(QLabel):
-    def __init__(self, text, font_size=16, font_family='NanumGothic'):
+    def __init__(self, text, font_size=14, font_family='NanumGothic'):
         super(ResizedQLabel, self).__init__()
 
         self.font_family = font_family
@@ -12,5 +12,5 @@ class ResizedQLabel(QLabel):
         self.setText(text)
         self.setFont(QFont(self.font_family, self.font_size))
 
-    def set_font(self, font_family, font_size=16):
+    def set_font(self, font_family, font_size=14):
         self.setFont(QFont(font_family, font_size))

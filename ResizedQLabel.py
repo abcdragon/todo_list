@@ -2,6 +2,10 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QFont
 
 
+def template_font(font_size=14, font_family='NanumGhothic'):
+    return QFont(font_family, font_size)
+
+
 class ResizedQLabel(QLabel):
     def __init__(self, text, font_size=14, font_family='NanumGothic'):
         super(ResizedQLabel, self).__init__()
